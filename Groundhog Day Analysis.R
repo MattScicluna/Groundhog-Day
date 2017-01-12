@@ -1,6 +1,16 @@
-library(ggplot2)
-gh<-read.csv("C:\\Users\\Matthew Scicluna\\Desktop\\Files\\TA work\\STA312 TA\\Bonus\\Groundhog Day.csv")
-w<-read.csv("C:\\Users\\Matthew Scicluna\\Desktop\\Files\\TA work\\STA312 TA\\Bonus\\eng-monthly-011840-122006.csv",sep=',')
+#Install necessary packages
+pckgs = list("ggplot2")
+
+func <- function(x){
+  if(!is.element(x, rownames(installed.packages())))
+  {install.packages(x)}
+}
+
+lapply(pckgs, func)
+lapply(pckgs, library, character.only=TRUE)
+
+gh<-read.csv(".\\Groundhog Day.csv")
+w<-read.csv(".\\eng-monthly-011840-122006.csv",sep=',')
 gh<-gh[-1,]
 w[,2]<-as.numeric(as.vector(w[,2]),1:4) #Convert temp into number
 w[,4]<-as.numeric(as.vector(w[,4]),1:4)
@@ -25,6 +35,9 @@ nshadow<-ghdata[ghdata[,2]=='No Shadow',]
 mean(shadow[,3])
 mean(nshadow[,3])
 t.test(shadow[,3],nshadow[,3]) #Lets do a t test to find out if groundhogs are psychic!
+
+ghdata = ghdata[ghdata[,2]!='NA',]
+
 qplot(Year,Temp,data=ghdata,color=Shadow, shape=Shadow)
 qplot(Year,Temp,data=ghdata,facets=Shadow~.)
-qplot(Year,Temp,data=ghdata,facets=Shadow~.,geom=c('point','smooth'), method='lm')
+qplot(Year,Temp,data=ghdata,facets=Shadow~.,geom=c('point','smooth'))
